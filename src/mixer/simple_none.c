@@ -933,6 +933,9 @@ static const struct excep {
 	{"3D Control - Depth", 18, CTL_PLAYBACK_VOLUME},
 	{"3D Control Sigmatel - Depth", 27, CTL_PLAYBACK_VOLUME},
 	{"3D Control Sigmatel - Rear Depth", 32, CTL_PLAYBACK_VOLUME},
+	{"Headphone Channel Switch", 9, CTL_PLAYBACK_SWITCH},
+	{"HP Channel Switch", 2, CTL_PLAYBACK_SWITCH},
+	{"Speaker Channel Switch", 7, CTL_PLAYBACK_SWITCH},
 	/* Capture Volume/Switch controls without a " Capture ..." suffix */
 	{"ADC Boost Gain", 14, CTL_CAPTURE_VOLUME},
 	{"IN1 Boost", 9, CTL_CAPTURE_VOLUME},
