@@ -920,8 +920,15 @@ static const struct excep {
 	 */
 	{"Input Source", 12, CTL_CAPTURE_ROUTE},
 	/* Avoid these Capture Volume/Switch controls getting seen as GLOBAL VOL/SW */
+	{"ADC PGA Gain Volume", 12, CTL_CAPTURE_VOLUME},
 	{"Capture Volume", 7, CTL_CAPTURE_VOLUME},
 	{"Capture Switch", 7, CTL_CAPTURE_SWITCH},
+	{"IN1 Boost Volume", 9, CTL_CAPTURE_VOLUME},
+	{"IN2 Boost Volume", 9, CTL_CAPTURE_VOLUME},
+	{"IN3 Boost Volume", 9, CTL_CAPTURE_VOLUME},
+	{"Mono ADC Boost Gain Volume", 19, CTL_CAPTURE_VOLUME},
+	{"STO1 ADC Boost Gain Volume", 19, CTL_CAPTURE_VOLUME},
+	{"STO2 ADC Boost Gain Volume", 19, CTL_CAPTURE_VOLUME},
 	/* Playback Volume/Switch controls without a " Playback ..." suffix */
 	{"3D Control - Depth", 18, CTL_PLAYBACK_VOLUME},
 	{"3D Control Sigmatel - Depth", 27, CTL_PLAYBACK_VOLUME},
