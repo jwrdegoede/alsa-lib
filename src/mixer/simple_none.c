@@ -905,22 +905,39 @@ static const struct suf {
 	{" Volume", CTL_GLOBAL_VOLUME},
 	{NULL, 0}
 };
+
+static const struct excep {
+	const char *name;
+	int base_len;
+	selem_ctl_type_t type;
+} exceptions[] = {
+	/* Special case - handle "Input Source" as a capture route.
+	 * Note that it's *NO* capture source.  A capture source is split over
+	 * sub-elements, and multiple capture-sources will result in an error.
+	 * That's why some drivers use "Input Source" as a workaround.
+	 * Hence, this is a workaround for a workaround to get the things
+	 * straight back again.  Sigh.
+	 */
+	{"Input Source", 12, CTL_CAPTURE_ROUTE},
+	/* Avoid these Capture Volume/Switch controls getting seen as GLOBAL VOL/SW */
+	{"Capture Volume", 7, CTL_CAPTURE_VOLUME},
+	{"Capture Switch", 7, CTL_CAPTURE_SWITCH},
+	{NULL,}
+};
 #endif
 
 /* Return base length */
 static int base_len(const char *name, selem_ctl_type_t *type)
 {
+	const struct excep *e;
 	const struct suf *p;
 	size_t nlen = strlen(name);
 
-	/* exception: "Capture Volume" and "Capture Switch" */
-	if (!strcmp(name, "Capture Volume")) {
-		*type = CTL_CAPTURE_VOLUME;
-		return strlen("Capture");
-	}
-	if (!strcmp(name, "Capture Switch")) {
-		*type = CTL_CAPTURE_SWITCH;
-		return strlen("Capture");
+	for (e = exceptions; e->name; e++) {
+		if (!strcmp(name, e->name)) {
+			*type = e->type;
+			return e->base_len;
+		}
 	}
 
 	for (p = suffixes; p->suffix; p++) {
@@ -936,17 +953,6 @@ static int base_len(const char *name, selem_ctl_type_t *type)
 		}
 	}
 
-	/* Special case - handle "Input Source" as a capture route.
-	 * Note that it's *NO* capture source.  A capture source is split over
-	 * sub-elements, and multiple capture-sources will result in an error.
-	 * That's why some drivers use "Input Source" as a workaround.
-	 * Hence, this is a workaround for a workaround to get the things
-	 * straight back again.  Sigh.
-	 */
-	if (!strcmp(name, "Input Source")) {
-		*type = CTL_CAPTURE_ROUTE;
-		return strlen(name);
-	}
 	if (strstr(name, "3D Control")) {
 		if (strstr(name, "Depth")) {
 			*type = CTL_PLAYBACK_VOLUME;
