@@ -922,6 +922,10 @@ static const struct excep {
 	/* Avoid these Capture Volume/Switch controls getting seen as GLOBAL VOL/SW */
 	{"Capture Volume", 7, CTL_CAPTURE_VOLUME},
 	{"Capture Switch", 7, CTL_CAPTURE_SWITCH},
+	/* Playback Volume/Switch controls without a " Playback ..." suffix */
+	{"3D Control - Depth", 18, CTL_PLAYBACK_VOLUME},
+	{"3D Control Sigmatel - Depth", 27, CTL_PLAYBACK_VOLUME},
+	{"3D Control Sigmatel - Rear Depth", 32, CTL_PLAYBACK_VOLUME},
 	{NULL,}
 };
 #endif
@@ -950,13 +954,6 @@ static int base_len(const char *name, selem_ctl_type_t *type)
 				*type = p->type;
 				return l;
 			}
-		}
-	}
-
-	if (strstr(name, "3D Control")) {
-		if (strstr(name, "Depth")) {
-			*type = CTL_PLAYBACK_VOLUME;
-			return strlen(name);
 		}
 	}
 
